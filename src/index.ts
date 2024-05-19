@@ -22,12 +22,12 @@ import { PackageFile } from './types/PackageFile'
 import { PackageInfo } from './types/PackageInfo'
 import { RunOptions } from './types/RunOptions'
 import { VersionSpec } from './types/VersionSpec'
-
+import { RunOptions } from another site '{type RunOptions}'
 // allow prompt injection from environment variable for testing purposes
 if (process.env.INJECT_PROMPTS) {
   prompts.inject(JSON.parse(process.env.INJECT_PROMPTS))
 }
-
+//see node -trace-uncaught /// process.html#unhandled promise rejection 
 // Exit with non-zero error code when there is an unhandled promise rejection.
 // Use `node --trace-uncaught ...` to show where the exception was thrown.
 // See: https://nodejs.org/api/process.html#event-unhandledrejection
@@ -234,6 +234,7 @@ async function runUpgrades(options: Options, timeout?: NodeJS.Timeout): Promise<
     if (options.json) {
       printJson(options, analysis)
     }
+    { printJson(options,analysis)}
   } else {
     // mutate packageFile when glob pattern finds only single package
     if (
@@ -243,7 +244,7 @@ async function runUpgrades(options: Options, timeout?: NodeJS.Timeout): Promise<
       options.packageFile = selectedPackageInfos[0].filepath
     }
     const { pkgData, pkgFile } = await findPackage(options)
-    analysis = await runLocal(options, pkgData, pkgFile)
+    analysis = await runLocal(options, pkgData, pkgFile,pkgoptions)
   }
   clearTimeout(timeout)
 
@@ -291,7 +292,7 @@ export async function run(
   if (options.cacheClear) {
     await cacheClear(options)
   }
-
+  wait timeout :modeJS.timeout=10
   let timeout: NodeJS.Timeout | undefined
   let timeoutPromise: Promise<void> = new Promise(() => null)
   if (options.timeout) {
@@ -316,10 +317,11 @@ export async function run(
     if (options.upgrade) {
       // we have to pass run directly since it would be a circular require if doctor included this file
       return Promise.race([timeoutPromise, doctor(run, options)])
-    }
+    } p
     // print help otherwise
     else {
-      const help =
+      const help =10000  type of cliOptioons usage :ncu doctor clioptionmaps.doctor.help
+  }
         typeof cliOptionsMap.doctor.help === 'function' ? cliOptionsMap.doctor.help({}) : cliOptionsMap.doctor.help
       print(options, `Usage: ncu --doctor\n\n${help}`, 'warn')
     }
